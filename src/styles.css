@@ -1,7 +1,7 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap");
+@import "tailwindcss";
 
 :root {
   --font-sora: "Sora", sans-serif;
@@ -82,4 +82,62 @@
 
 .-rotate-360 {
   @apply rotate-[-360deg]
+}
+
+@theme {
+  --color-color-1: #AC6AFF;
+  --color-color-2: #FFC876;
+  --color-color-3: #FF776F;
+  --color-color-4: #7ADB78;
+  --color-color-5: #858DFF;
+  --color-color-6: #FF98E2;
+
+  --color-stroke-1: #26242C;
+
+  --color-n-1: #FFFFFF;
+  --color-n-2: #CAC6DD;
+  --color-n-3: #ADA8C3;
+  --color-n-4: #757185;
+  --color-n-5: #3F3A52;
+  --color-n-6: #252134;
+  --color-n-7: #15131D;
+  --color-n-8: #0E0C15;
+  --color-n-9: #474060;
+  --color-n-10: #43435C;
+  --color-n-11: #1B1B2E;
+  --color-n-12: #2E2A41;
+  --color-n-13: #6C7275;
+
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui;
+  --font-code: var(--font-code), monospace;
+  --font-grotesk: var(--font-grotesk), sans-serif;
+
+  --spacing-0\\.25: 0.0625rem;
+  --spacing-7\\.5: 1.875rem;
+  --spacing-15: 3.75rem;
+
+  --letter-spacing-tagline: 0.15em;
+
+  --opacity-15: 0.15;
+
+  --duration-default: 200ms;
+  --timing-default: linear;
+
+  --z-1: 1;
+  --z-2: 2;
+  --z-3: 3;
+  --z-4: 4;
+  --z-5: 5;
+
+  --border-width-default: 0.0625rem;
+
+  --bg-radial-gradient: radial-gradient(var(--tw-gradient-stops));
+  --bg-conic-gradient: conic-gradient(
+    from 225deg,
+    #FFC876,
+    #79FFF7,
+    #9F53FF,
+    #FF98E2,
+    #FFC876
+  );
 }

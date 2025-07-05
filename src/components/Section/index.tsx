@@ -1,24 +1,27 @@
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren, RefObject } from "react";
 import SectionSvg from "@/assets/svg/section";
 
 interface ISectionProps extends PropsWithChildren {
-  className: string;
-  crosses: boolean;
-  crossesOffset: string;
-  customPaddings: boolean;
-  id: string;
+  className?: string;
+  crosses?: boolean;
+  crossesOffset?: string;
+  customPaddings?: boolean;
+  ref?: RefObject<HTMLDivElement | null>;
+  id?: string;
 }
 
 const Section: FC<ISectionProps> = ({
   children,
   className,
   crosses,
+  ref,
   crossesOffset,
   customPaddings,
   id,
 }) => {
   return (
     <div
+      ref={ref}
       id={id}
       className={`
       relative 

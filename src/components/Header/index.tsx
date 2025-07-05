@@ -1,4 +1,4 @@
-import { useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import logo from "@/assets/logo.png";
@@ -23,7 +23,6 @@ const Header = () => {
 
   const handleClick = () => {
     if (!openNavigation) return;
-
     enablePageScroll();
     setOpenNavigation(false);
   };
@@ -46,20 +45,18 @@ const Header = () => {
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
             {navigation.map((item) => (
-              <a
+              <Link
+                to={item.url}
                 key={item.id}
-                href={item.url}
                 onClick={handleClick}
-                className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
-                  item.onlyMobile ? "lg:hidden" : ""
-                } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
+                className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1  px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
                   item.url === pathname.hash
                     ? "z-2 lg:text-n-1"
                     : "lg:text-n-1/50"
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
                 {item.title}
-              </a>
+              </Link>
             ))}
           </div>
 

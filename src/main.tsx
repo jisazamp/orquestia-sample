@@ -4,15 +4,23 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals.ts";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
+import * as TanstackQuery from "./integrations/tanstack-query/index.tsx";
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: {},
+  context: {
+    ...TanstackQuery.getContext(),
+  },
   defaultPreload: "intent",
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  defaultPendingComponent: () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20">
+      <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin" />
+    </div>
+  ),
 });
 
 // Register the router instance for type safety
@@ -28,7 +36,9 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <TanstackQuery.Provider>
+        <RouterProvider router={router} />
+      </TanstackQuery.Provider>
     </StrictMode>,
   );
 }

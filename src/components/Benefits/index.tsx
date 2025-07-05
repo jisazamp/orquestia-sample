@@ -64,7 +64,7 @@ const Benefits = () => {
             <div
               key={item.id}
               ref={(el) => setCardRef(el, index)}
-              className="relative p-0.5 bg-no-repeat bg-[length:100%_100%] border border-gray-100 rounded-md"
+              className="relative p-0.5 bg-no-repeat bg-[length:100%_100%] rounded-md"
               style={{
                 backgroundImage: `url(${item.backgroundUrl})`,
               }}

@@ -127,7 +127,7 @@ const Hero = () => {
           >
             Desata la productividad de tu empresa con nuestras soluciones
           </p>
-          <Button href="/pricing" white ref={buttonRef}>
+          <Button white ref={buttonRef}>
             Charlemos
           </Button>
         </div>

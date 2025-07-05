@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals.ts";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
 import * as TanstackQuery from "./integrations/tanstack-query/index.tsx";
+import { Pending } from "./components/Pending/index.tsx";
 
 // Create a new router instance
 const router = createRouter({
@@ -16,11 +17,7 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
-  defaultPendingComponent: () => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20">
-      <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin" />
-    </div>
-  ),
+  defaultPendingComponent: Pending,
 });
 
 // Register the router instance for type safety

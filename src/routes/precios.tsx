@@ -1,26 +1,27 @@
-import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import Pricing from "@/components/Pricing";
 import { pricing } from "@/constants/pricing";
+import type { PricingListItem } from "@/components/PricingList";
+import { Pending } from "@/components/Pending";
 
 const fetchPricing = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return pricing;
+  return await new Promise<PricingListItem[]>((resolve) =>
+    setTimeout(() => resolve(pricing), 2000),
+  );
 };
 
-const pricingQueryOptions = queryOptions({
-  queryKey: ["pricing"],
-  queryFn: fetchPricing,
-});
-
 export const Route = createFileRoute("/precios")({
-  loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(pricingQueryOptions),
-
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const data = Route.useLoaderData();
-  return <Pricing items={data} />;
+  const { data, isLoading } = useQuery({
+    queryKey: ["pricing"],
+    queryFn: fetchPricing,
+  });
+
+  if (isLoading) return <Pending />;
+
+  return <Pricing items={data as PricingListItem[]} />;
 }

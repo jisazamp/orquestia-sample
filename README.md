@@ -1,290 +1,235 @@
-Welcome to your new TanStack app! 
+# 🚀 React + TanStack Router + n8n Simulation
 
-# Getting Started
+This project is a simple frontend application built with **Vite**, **React**, and **TanStack Router**, which interacts with a simulated backend endpoint created using **n8n**. It’s a great example of local full-stack simulation, useful for prototyping or integration testing.
 
-To run this application:
+---
+
+## 📁 Project Structure
+
+- **Frontend**: Vite + React + TanStack Router  
+- **Backend Simulation**: n8n workflow exposed via webhook (running in Docker)
+
+---
+
+## ✅ Prerequisites
+
+Before getting started, ensure you have the following installed:
+
+- **Node.js** (v18+ recommended) → [https://nodejs.org/](https://nodejs.org/)
+- **Docker** + **Docker Compose** → [https://www.docker.com/](https://www.docker.com/)
+- **pnpm** (preferred) or `npm`/`yarn` → [https://pnpm.io/](https://pnpm.io/)
+
+---
+
+## 🛠️ Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
-bun install
-bunx --bun run start  
+git clone https://github.com/jisazamp/orquestia-sample.git
+cd orquestia-sample
 ```
 
-# Building For Production
+### 2. Install Frontend Dependencies
 
-To build this application for production:
+Using **pnpm** (recommended):
 
 ```bash
-bunx --bun run build
+pnpm install
 ```
 
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+Or using npm:
 
 ```bash
-bunx --bun run test
+npm install
 ```
 
-## Styling
+---
 
-This project uses CSS for styling.
+### 3. Create the `.env` File
 
+You’ll need to set an environment variable pointing to the simulated API endpoint.
 
+Create a file named `.env` in the root directory and add the following:
 
-
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
+```env
+VITE_BASE_URLL=http://localhost:5678/webhook/
 ```
 
-Then anywhere in your JSX you can use it like so:
+> Replace the URL if you expose the n8n container via a different port or hostname.
 
-```tsx
-<Link to="/about">About</Link>
+---
+
+### 4. Run the n8n Simulation Server (via Docker)
+
+Create a file called `docker-compose.yml` in the root directory with the following content:
+
+```yaml
+version: "3.7"
+
+services:
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin
+    volumes:
+      - ./n8n:/home/node/.n8n
 ```
 
-This will create a link that will navigate to the `/about` route.
+Then run:
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
+```bash
+docker-compose up
 ```
 
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
+> This will start the n8n editor at [http://localhost:5678](http://localhost:5678).  
+> Log in using `admin / admin`.
 
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
+---
 
+### 5. Import the Workflow into n8n
 
-## Data Fetching
+1. Go to [http://localhost:5678](http://localhost:5678)
+2. Click the **hamburger menu** (top left) → **Import Workflow**
+3. Paste the following JSON:
 
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
+<details>
+<summary>Click to expand the workflow JSON</summary>
 
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
+```json
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "api/simulacion",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "dc50ae63-adf0-4c9c-8477-b3eda4f159d9",
+      "name": "HTTP Request Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "webhookId": "1c5a00f3-d589-47c7-8d40-db22a3259392"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"title\": \"Hola\",\n  \"message\": \"Mundo!\"\n}",
+        "options": {}
+      },
+      "id": "932cbbdb-1f70-4b52-9ac2-cad8c45372ab",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [200, 0]
+    }
+  ],
+  "connections": {
+    "HTTP Request Trigger": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
+  "active": true
+}
 ```
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+</details>
 
-### React-Query
+4. Click “Activate” to make the webhook live.
 
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
+---
 
-First add your dependencies:
+### 6. Start the Frontend App
+
+Using pnpm:
 
 ```bash
-bun install @tanstack/react-query @tanstack/react-query-devtools
+pnpm dev
 ```
 
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
+Or using npm:
 
 ```bash
-bun install @tanstack/store
+npm run dev
 ```
 
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
+The app will be available at:  
+[http://localhost:3000](http://localhost:3000)
 
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
+---
 
-const countStore = new Store(0);
+## 🧪 Testing the Integration
 
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
+When the frontend makes a request to `/api/simulacion`, the n8n workflow will respond with:
+
+```json
+{
+  "title": "Hola",
+  "message": "Mundo!"
 }
-
-export default App;
 ```
 
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
+You can verify this manually using `curl`:
 
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
+```bash
+curl http://localhost:5678/webhook/api/simulacion
 ```
 
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
+Or through the app’s interface.
 
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
+---
 
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
+## 📦 Build for Production
 
-# Demo files
+```bash
+pnpm build
+```
 
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
+Static files will be in the `dist/` folder.
 
-# Learn More
+---
 
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+## 🧼 Cleanup
+
+To stop all containers:
+
+```bash
+docker-compose down
+```
+
+To remove the `node_modules` and lockfile:
+
+```bash
+pnpm store prune
+rm -rf node_modules pnpm-lock.yaml
+```
+
+---
+
+## 🧠 Technologies Used
+
+- [Vite](https://vitejs.dev/)
+- [React](https://reactjs.org/)
+- [TanStack Router](https://tanstack.com/router)
+- [n8n](https://n8n.io/)
+- [Docker](https://www.docker.com/)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.

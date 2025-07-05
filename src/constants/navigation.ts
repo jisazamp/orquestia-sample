@@ -9,4 +9,5 @@ export const navigation = [
     title: "Precios",
     url: "/precios",
   },
+  { id: "2", title: "Simulación", url: "/simulacion" },
 ];

@@ -11,7 +11,13 @@
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as IndexRouteImport } from "./routes/index";
 import { Route as PreciosRouteImport } from "./routes/precios";
+import { Route as SimulacionRouteImport } from "./routes/simulacion";
 
+const SimulacionRoute = SimulacionRouteImport.update({
+  id: "/simulacion",
+  path: "/simulacion",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const PreciosRoute = PreciosRouteImport.update({
   id: "/precios",
   path: "/precios",
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "/precios": typeof PreciosRoute;
+  "/simulacion": typeof SimulacionRoute;
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "/precios": typeof PreciosRoute;
+  "/simulacion": typeof SimulacionRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   "/": typeof IndexRoute;
   "/precios": typeof PreciosRoute;
+  "/simulacion": typeof SimulacionRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/precios";
+  fullPaths: "/" | "/precios" | "/simulacion";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/precios";
-  id: "__root__" | "/" | "/precios";
+  to: "/" | "/precios" | "/simulacion";
+  id: "__root__" | "/" | "/precios" | "/simulacion";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   PreciosRoute: typeof PreciosRoute;
+  SimulacionRoute: typeof SimulacionRoute;
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/simulacion": {
+      id: "/simulacion";
+      path: "/simulacion";
+      fullPath: "/simulacion";
+      preLoaderRoute: typeof SimulacionRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/precios": {
       id: "/precios";
       path: "/precios";
@@ -71,6 +88,7 @@ declare module "@tanstack/react-router" {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PreciosRoute: PreciosRoute,
+  SimulacionRoute: SimulacionRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

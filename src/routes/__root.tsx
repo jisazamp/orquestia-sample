@@ -11,7 +11,7 @@ interface MyRouterContext {
 export const Route = createRootRoute<MyRouterContext>({
   component: () => (
     <>
-      <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-x-hidden">
+      <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <Header />
         <Outlet />
         <TanStackRouterDevtools />

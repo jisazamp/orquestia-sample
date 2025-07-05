@@ -57,7 +57,7 @@ const Benefits = () => {
       <div className="container relative z-2">
         <Heading
           className="md:max-w-md lg:max-w-2xl text-4xl"
-          title="Chat Smarter, Not Harder with Brainwave"
+          title="Nuestro portafolio"
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-10">
           {benefits.map((item, index) => (

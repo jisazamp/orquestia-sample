@@ -35,7 +35,11 @@ const Pricing = <T extends PricingListItem>({ items }: IPricingProps<T>) => {
             />
           </div>
         </div>
-        <Heading tag="Nuestros planes" title="Paga una vez usa para siempre" />
+        <Heading
+          tag="Nuestros planes"
+          title="Paga una vez usa para siempre"
+          className="flex flex-col items-center"
+        />
         <div className="relative">
           <PricingList items={items} />
           <LeftLine />

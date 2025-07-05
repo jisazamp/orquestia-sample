@@ -8,80 +8,80 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as PreciosRouteImport } from "./routes/precios";
-import { Route as SimulacionRouteImport } from "./routes/simulacion";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as SimulacionRouteImport } from './routes/simulacion'
+import { Route as PreciosRouteImport } from './routes/precios'
+import { Route as IndexRouteImport } from './routes/index'
 
 const SimulacionRoute = SimulacionRouteImport.update({
-  id: "/simulacion",
-  path: "/simulacion",
+  id: '/simulacion',
+  path: '/simulacion',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const PreciosRoute = PreciosRouteImport.update({
-  id: "/precios",
-  path: "/precios",
+  id: '/precios',
+  path: '/precios',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/precios": typeof PreciosRoute;
-  "/simulacion": typeof SimulacionRoute;
+  '/': typeof IndexRoute
+  '/precios': typeof PreciosRoute
+  '/simulacion': typeof SimulacionRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/precios": typeof PreciosRoute;
-  "/simulacion": typeof SimulacionRoute;
+  '/': typeof IndexRoute
+  '/precios': typeof PreciosRoute
+  '/simulacion': typeof SimulacionRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/precios": typeof PreciosRoute;
-  "/simulacion": typeof SimulacionRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/precios': typeof PreciosRoute
+  '/simulacion': typeof SimulacionRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/precios" | "/simulacion";
-  fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/precios" | "/simulacion";
-  id: "__root__" | "/" | "/precios" | "/simulacion";
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/precios' | '/simulacion'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/precios' | '/simulacion'
+  id: '__root__' | '/' | '/precios' | '/simulacion'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  PreciosRoute: typeof PreciosRoute;
-  SimulacionRoute: typeof SimulacionRoute;
+  IndexRoute: typeof IndexRoute
+  PreciosRoute: typeof PreciosRoute
+  SimulacionRoute: typeof SimulacionRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/simulacion": {
-      id: "/simulacion";
-      path: "/simulacion";
-      fullPath: "/simulacion";
-      preLoaderRoute: typeof SimulacionRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/precios": {
-      id: "/precios";
-      path: "/precios";
-      fullPath: "/precios";
-      preLoaderRoute: typeof PreciosRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+    '/simulacion': {
+      id: '/simulacion'
+      path: '/simulacion'
+      fullPath: '/simulacion'
+      preLoaderRoute: typeof SimulacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/precios': {
+      id: '/precios'
+      path: '/precios'
+      fullPath: '/precios'
+      preLoaderRoute: typeof PreciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,7 +89,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PreciosRoute: PreciosRoute,
   SimulacionRoute: SimulacionRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

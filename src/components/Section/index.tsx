@@ -1,11 +1,11 @@
 import type { FC, PropsWithChildren } from "react";
-import SectionSvg from "../assets/svg/SectionSvg";
+import SectionSvg from "@/assets/svg/section";
 
 interface ISectionProps extends PropsWithChildren {
   className: string;
-  crosses: string;
+  crosses: boolean;
   crossesOffset: string;
-  customPaddings: string;
+  customPaddings: boolean;
   id: string;
 }
 

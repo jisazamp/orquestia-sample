@@ -1,17 +1,17 @@
 export const navigation = [
   {
     id: "0",
-    title: "Features",
+    title: "Productos",
     url: "#features",
   },
   {
     id: "1",
-    title: "Pricing",
+    title: "Planes",
     url: "#pricing",
   },
   {
     id: "2",
-    title: "How to use",
+    title: "Cómo usar",
     url: "#how-to-use",
   },
   {
